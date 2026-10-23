@@ -1093,6 +1093,7 @@ try:
     st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
     if modo == "Soy Alumna":
+        st.session_state["admin_ok"] = False  # al salir del modo admin, se vuelve a pedir contraseña
         vista_alumna()
     elif acceso_admin():
         vista_admin()
