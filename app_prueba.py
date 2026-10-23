@@ -163,18 +163,16 @@ button[data-baseweb="tab"][aria-selected="true"] div {{
 
 /* OCULTAR LÍNEAS DECORATIVAS DE STREAMLIT */
 [data-baseweb="tab-highlight"], [data-baseweb="tab-border"], [data-testid="stTabs"] hr,
-div[data-testid="stTabs"] div[role="tablist"] > div:not([role="tab"]),
-div[data-baseweb="tab-list"] > div:not([role="tab"]) {{
+div[data-testid="stTabs"] div[role="tablist"] > div:not([role="tab"]):not(:has(button)),
+div[data-baseweb="tab-list"] > div:not([role="tab"]):not(:has(button)) {{
     display: none !important;
     height: 0 !important;
     background: transparent !important;
     background-color: transparent !important;
     opacity: 0 !important;
 }}
-[role="tablist"] > :not(button),
-[role="tablist"]::before, [role="tablist"]::after,
-[data-baseweb="tabs"] [role="tablist"] ~ div[aria-hidden="true"],
-[data-baseweb="tab-list"] > :not(button) {{
+[role="tablist"] > *:not(button):not([role="tab"]):not(:has(button)):not(:has([role="tab"])),
+[data-baseweb="tab-list"] > *:not(button):not([role="tab"]):not(:has(button)):not(:has([role="tab"])) {{
     display: none !important;
     visibility: hidden !important;
     width: 0 !important;
@@ -185,6 +183,8 @@ div[data-baseweb="tab-list"] > div:not([role="tab"]) {{
     content: none !important;
 }}
 button[role="tab"], button[data-baseweb="tab"] {{
+    display: inline-flex !important;
+    visibility: visible !important;
     border-bottom: 1px solid {BORDE} !important;
     text-decoration: none !important;
     outline: none !important;
