@@ -302,7 +302,7 @@ def grafica_mensual(df: pd.DataFrame):
 
 
 # ------------------------------------------------------------------
-# 4. GOOGLE SHEETS
+# 4. GOOGLE SHEETS (HÍBRIDO: NUBE O LOCAL)
 # ------------------------------------------------------------------
 def asegurar_hoja(ss, nombre, columnas):
     try:
@@ -326,7 +326,7 @@ def hojas():
     scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     creds = None
     
-    # 1. Intentar leer desde secrets (producción/nube)
+    # 1. Modo Nube: Lee credenciales de Streamlit Secrets
     try:
         if "gcp_service_account" in st.secrets:
             creds_dict = dict(st.secrets["gcp_service_account"])
@@ -334,7 +334,7 @@ def hojas():
     except Exception:
         pass
         
-    # 2. Respaldo local con credentials.json
+    # 2. Modo Local: Si no está en Secrets, lee credentials.json
     if not creds:
         with open("credentials.json", "r") as f:
             creds_data = json.load(f)
@@ -572,7 +572,6 @@ def vista_alumna():
         if puede:
             if st.button("Cancelar esta clase", key=f"cx_{idx}", width="stretch"):
                 actualizar_celdas("reservas", idx + 2, {"Estatus": "Cancelada"})
-                # Devolución de clase por cancelación a tiempo
                 ajustar_clases(id_al, nombre, +1)
                 terminar("Clase cancelada. Tu lugar ha sido liberado y tu clase reintegrada.")
         else:
@@ -627,7 +626,7 @@ def vista_alumna():
                 "ID_Alumna": id_al, "Asistencia": "", "Pago_Registrado": ""})
             hojas()["reservas"].append_row(fila, value_input_option="RAW")
             
-            # Descuento atómico inmediato al agendar
+            # Descuento inmediato de clase
             ajustar_clases(id_al, nombre, -1)
             
             st.session_state["ultima_reserva"] = {
