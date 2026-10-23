@@ -70,6 +70,7 @@ ROJO = "#C62828"
 # ------------------------------------------------------------------
 st.markdown(f"""
 <style>
+:root {{ color-scheme: light !important; }}
 .stApp {{ background-color: {CREMA} !important; color: {TEXTO} !important; font-family: 'Helvetica Neue', sans-serif; }}
 #MainMenu {{visibility: hidden;}}
 footer {{visibility: hidden;}}
@@ -83,52 +84,80 @@ div[data-baseweb="select"] input,
 div[data-baseweb="select"] div {{ font-size: 16px !important; }}
 button, a, label, [role="tab"], [role="radio"] {{ touch-action: manipulation; }}
 
-/* CONTENEDOR DE PESTAÑAS */
-div[data-testid="stTabs"] {{
+/* CONTENEDOR DE PESTAÑAS (varios selectores para distintas versiones de Streamlit) */
+div[data-testid="stTabs"],
+div[data-baseweb="tabs"] {{
     background: transparent !important;
 }}
 
-div[data-testid="stTabs"] div[role="tablist"] {{
+div[data-testid="stTabs"] div[role="tablist"],
+div[data-baseweb="tab-list"] {{
     background: transparent !important;
     gap: 8px !important;
     border-bottom: none !important;
     padding-bottom: 12px !important;
     display: flex !important;
+    flex-wrap: wrap !important;
 }}
 
-/* BOTÓN DE PESTAÑA INACTIVO (FONDO BLANCO Y BORDE) */
-div[data-testid="stTabs"] button[role="tab"] {{
+/* BOTÓN DE PESTAÑA INACTIVO (FONDO BLANCO, BORDE Y TEXTO GUINDA) */
+div[data-testid="stTabs"] button[role="tab"],
+button[data-baseweb="tab"],
+button[data-testid="stTab"],
+[data-testid="stTab"] {{
     background-color: #FFFFFF !important;
     border: 1px solid {BORDE} !important;
     border-radius: 999px !important;
     padding: 6px 14px !important;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
     opacity: 1 !important;
-}}
-
-/* FORZAR COLOR DE TEXTO E ICONOS EN PESTAÑAS INACTIVAS */
-div[data-testid="stTabs"] button[role="tab"] * {{
     color: {GUINDA} !important;
     -webkit-text-fill-color: {GUINDA} !important;
+    height: auto !important;
+}}
+
+/* FORZAR COLOR DE TEXTO E ICONOS EN PESTAÑAS INACTIVAS (incluye p, span, div internos) */
+div[data-testid="stTabs"] button[role="tab"] *,
+button[data-baseweb="tab"] *,
+button[data-testid="stTab"] *,
+[data-testid="stTab"] *,
+div[data-testid="stTabs"] button[role="tab"] p,
+button[data-baseweb="tab"] p,
+button[data-baseweb="tab"] span,
+button[data-baseweb="tab"] div {{
+    color: {GUINDA} !important;
+    -webkit-text-fill-color: {GUINDA} !important;
+    fill: {GUINDA} !important;
     font-weight: 700 !important;
     font-size: 0.85rem !important;
     opacity: 1 !important;
 }}
 
-div[data-testid="stTabs"] button[role="tab"]:hover {{
+div[data-testid="stTabs"] button[role="tab"]:hover,
+button[data-baseweb="tab"]:hover,
+[data-testid="stTab"]:hover {{
     border-color: {GUINDA} !important;
     background-color: {CREMA_OSCURO} !important;
 }}
 
 /* PESTAÑA ACTIVA / SELECCIONADA */
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"],
+button[data-baseweb="tab"][aria-selected="true"],
+[data-testid="stTab"][aria-selected="true"] {{
     background-color: {GUINDA} !important;
     border-color: {GUINDA} !important;
 }}
 
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] * {{
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] *,
+button[data-baseweb="tab"][aria-selected="true"] *,
+button[data-testid="stTab"][aria-selected="true"] *,
+[data-testid="stTab"][aria-selected="true"] *,
+button[data-baseweb="tab"][aria-selected="true"] p,
+button[data-baseweb="tab"][aria-selected="true"] span,
+button[data-baseweb="tab"][aria-selected="true"] div {{
     color: #FFFFFF !important;
     -webkit-text-fill-color: #FFFFFF !important;
+    fill: #FFFFFF !important;
     font-weight: 800 !important;
 }}
 
@@ -354,7 +383,7 @@ def asegurar_hoja(ss, nombre, columnas):
 def hojas():
     scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     creds = None
-    
+
     # 1. Modo Nube: Lee credenciales de Streamlit Secrets
     try:
         if "gcp_service_account" in st.secrets:
@@ -362,7 +391,7 @@ def hojas():
             creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
     except Exception:
         pass
-        
+
     # 2. Modo Local: Si no está en Secrets, lee credentials.json
     if not creds:
         with open("credentials.json", "r") as f:
@@ -641,7 +670,7 @@ def vista_alumna():
         mias = reservas_de(res, id_al, nombre)
         ya = (not mias.empty) and ((mias["Fecha"] == str(fecha)) & (mias["Hora"] == horario) &
                                    (mias["Estatus"] == "Confirmada")).any()
-        
+
         if ya:
             st.error("Ya tienes una clase agendada a esa misma hora.")
         elif ocupacion(res, fecha, horario, instructora) >= CUPO_MAX:
@@ -654,10 +683,10 @@ def vista_alumna():
                 "Estatus": "Confirmada", "Timestamp": ahora().strftime("%Y-%m-%d %H:%M:%S"),
                 "ID_Alumna": id_al, "Asistencia": "", "Pago_Registrado": ""})
             hojas()["reservas"].append_row(fila, value_input_option="RAW")
-            
+
             # Descuento inmediato de clase
             ajustar_clases(id_al, nombre, -1)
-            
+
             st.session_state["ultima_reserva"] = {
                 "id": id_al, "fecha": fecha.strftime("%d/%m/%Y"), "hora": horario, "instructora": instructora}
             terminar("¡Clase agendada con éxito!")
@@ -759,7 +788,7 @@ def tab_asistencia(res):
             f"<p style='margin:0;font-weight:700;color:{GUINDA} !important;'>{escape(hora)} · {escape(instr)}</p>"
             f"<p style='margin:0;font-size:0.8rem;color:{TEXTO_SUAVE} !important;'>{len(g)}/{CUPO_MAX} lugares</p></div>"
             f"{barra_ocupacion(len(g), CUPO_MAX)}"))
-        
+
         for idx, r in g.iterrows():
             c1, c2, c3, c4 = st.columns([4, 1, 1, 1])
             estado = r["Asistencia"] or "Por marcar"
