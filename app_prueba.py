@@ -162,8 +162,21 @@ button[data-baseweb="tab"][aria-selected="true"] div {{
 }}
 
 /* OCULTAR LÍNEAS DECORATIVAS DE STREAMLIT */
-div[data-baseweb="tab-highlight"], div[data-baseweb="tab-border"], [data-testid="stTabs"] hr {{
+[data-baseweb="tab-highlight"], [data-baseweb="tab-border"], [data-testid="stTabs"] hr,
+div[data-testid="stTabs"] div[role="tablist"] > div:not([role="tab"]),
+div[data-baseweb="tab-list"] > div:not([role="tab"]) {{
     display: none !important;
+    height: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    opacity: 0 !important;
+}}
+button[role="tab"]::before, button[role="tab"]::after,
+button[data-baseweb="tab"]::before, button[data-baseweb="tab"]::after {{
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: transparent !important;
 }}
 
 /* ELEMENTOS DE FORMULARIO */
