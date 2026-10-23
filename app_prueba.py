@@ -47,7 +47,7 @@ PAQUETES = {
 MAX_INTENTOS = 5
 BLOQUEO_SEG = 60
 
-ALUMNAS_COLS = ["ID", "Nombre", "Telefono", "Estatus_Pago", "Paquete", "Clases_Restantes", "Vencimiento"]
+ALUMNAS_COLS = ["ID", "Nombre", "Telefono", "Estatus_Pago", "Paquete", "Clases_Restantes", "Vencimiento", "PIN"]
 RESERVAS_COLS = [
     "Fecha", "Hora", "Alumna", "Instructor", "Estatus", "Timestamp",
     "ID_Alumna", "Asistencia", "Pago_Registrado"
@@ -84,121 +84,67 @@ div[data-baseweb="select"] input,
 div[data-baseweb="select"] div {{ font-size: 16px !important; }}
 button, a, label, [role="tab"], [role="radio"] {{ touch-action: manipulation; }}
 
-/* CONTENEDOR DE PESTAÑAS (varios selectores para distintas versiones de Streamlit) */
-div[data-testid="stTabs"],
-div[data-baseweb="tabs"] {{
-    background: transparent !important;
+/* NAVEGACIÓN TIPO CÁPSULA (st.radio con key="nav" y key="modo") */
+.st-key-nav div[role="radiogroup"], .st-key-modo div[role="radiogroup"] {{
+    display: grid !important; gap: 8px !important; width: 100% !important;
 }}
+.st-key-nav div[role="radiogroup"] {{ grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }}
+.st-key-modo div[role="radiogroup"] {{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }}
 
-div[data-testid="stTabs"] div[role="tablist"],
-div[data-baseweb="tab-list"] {{
-    background: transparent !important;
-    gap: 8px !important;
-    border-bottom: none !important;
-    padding-bottom: 12px !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
+.st-key-nav label[data-baseweb="radio"], .st-key-modo label[data-baseweb="radio"] {{
+    background-color: #FFFFFF !important; border: 1px solid {BORDE} !important;
+    border-radius: 999px !important; padding: 9px 4px !important; margin: 0 !important;
+    display: flex !important; justify-content: center !important; align-items: center !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important; cursor: pointer !important;
+    min-width: 0 !important; transition: all 0.15s ease-in-out !important;
 }}
-
-/* BOTÓN DE PESTAÑA INACTIVO (FONDO BLANCO, BORDE Y TEXTO GUINDA) */
-div[data-testid="stTabs"] button[role="tab"],
-button[data-baseweb="tab"],
-button[data-testid="stTab"],
-[data-testid="stTab"] {{
-    background-color: #FFFFFF !important;
-    border: 1px solid {BORDE} !important;
-    border-radius: 999px !important;
-    padding: 6px 14px !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
-    opacity: 1 !important;
-    color: {GUINDA} !important;
-    -webkit-text-fill-color: {GUINDA} !important;
-    height: auto !important;
+.st-key-nav label[data-baseweb="radio"]:hover, .st-key-modo label[data-baseweb="radio"]:hover {{
+    border-color: {GUINDA} !important; background-color: {CREMA_OSCURO} !important;
 }}
-
-/* FORZAR COLOR DE TEXTO E ICONOS EN PESTAÑAS INACTIVAS (incluye p, span, div internos) */
-div[data-testid="stTabs"] button[role="tab"] *,
-button[data-baseweb="tab"] *,
-button[data-testid="stTab"] *,
-[data-testid="stTab"] *,
-div[data-testid="stTabs"] button[role="tab"] p,
-button[data-baseweb="tab"] p,
-button[data-baseweb="tab"] span,
-button[data-baseweb="tab"] div {{
-    color: {GUINDA} !important;
-    -webkit-text-fill-color: {GUINDA} !important;
-    fill: {GUINDA} !important;
-    font-weight: 700 !important;
-    font-size: 0.85rem !important;
-    opacity: 1 !important;
-}}
-
-div[data-testid="stTabs"] button[role="tab"]:hover,
-button[data-baseweb="tab"]:hover,
-[data-testid="stTab"]:hover {{
-    border-color: {GUINDA} !important;
-    background-color: {CREMA_OSCURO} !important;
-}}
-
-/* PESTAÑA ACTIVA / SELECCIONADA */
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"],
-button[data-baseweb="tab"][aria-selected="true"],
-[data-testid="stTab"][aria-selected="true"] {{
-    background-color: {GUINDA} !important;
-    border-color: {GUINDA} !important;
-}}
-
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] *,
-button[data-baseweb="tab"][aria-selected="true"] *,
-button[data-testid="stTab"][aria-selected="true"] *,
-[data-testid="stTab"][aria-selected="true"] *,
-button[data-baseweb="tab"][aria-selected="true"] p,
-button[data-baseweb="tab"][aria-selected="true"] span,
-button[data-baseweb="tab"][aria-selected="true"] div {{
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-    font-weight: 800 !important;
-}}
-
-/* OCULTAR LÍNEAS DECORATIVAS DE STREAMLIT */
-[data-baseweb="tab-highlight"], [data-baseweb="tab-border"], [data-testid="stTabs"] hr,
-div[data-testid="stTabs"] div[role="tablist"] > div:not([role="tab"]):not(:has(button)),
-div[data-baseweb="tab-list"] > div:not([role="tab"]):not(:has(button)) {{
+/* ocultar el circulito del radio */
+.st-key-nav label[data-baseweb="radio"] > div:first-child:not(:has([data-testid="stMarkdownContainer"])),
+.st-key-modo label[data-baseweb="radio"] > div:first-child:not(:has([data-testid="stMarkdownContainer"])),
+.st-key-nav label[data-baseweb="radio"] > span:first-child,
+.st-key-modo label[data-baseweb="radio"] > span:first-child {{
     display: none !important;
-    height: 0 !important;
-    background: transparent !important;
-    background-color: transparent !important;
-    opacity: 0 !important;
 }}
-[role="tablist"] > *:not(button):not([role="tab"]):not(:has(button)):not(:has([role="tab"])),
-[data-baseweb="tab-list"] > *:not(button):not([role="tab"]):not(:has(button)):not(:has([role="tab"])) {{
-    display: none !important;
-    visibility: hidden !important;
-    width: 0 !important;
-    height: 0 !important;
-    border: none !important;
+.st-key-nav label[data-baseweb="radio"] div[data-testid="stMarkdownContainer"],
+.st-key-modo label[data-baseweb="radio"] div[data-testid="stMarkdownContainer"] {{
+    margin: 0 !important; padding: 0 !important; width: 100% !important;
+}}
+.st-key-nav label[data-baseweb="radio"] p, .st-key-modo label[data-baseweb="radio"] p {{
+    color: {GUINDA} !important; font-weight: 700 !important; font-size: 0.8rem !important;
+    line-height: 1.25 !important; margin: 0 !important; text-align: center !important;
+}}
+/* seleccionado */
+.st-key-nav label[data-baseweb="radio"]:has(input:checked),
+.st-key-modo label[data-baseweb="radio"]:has(input:checked) {{
+    background-color: {GUINDA} !important; border-color: {GUINDA} !important;
+    box-shadow: 0 4px 10px rgba(74,21,37,0.25) !important;
+}}
+.st-key-nav label[data-baseweb="radio"]:has(input:checked) p,
+.st-key-modo label[data-baseweb="radio"]:has(input:checked) p {{
+    color: #FFFFFF !important; font-weight: 800 !important;
+}}
+
+/* FILAS DE ASISTENCIA: botones en una sola línea también en celular */
+[class*="st-key-fila_"] div[data-testid="stHorizontalBlock"] {{
+    flex-wrap: nowrap !important; gap: 6px !important; align-items: center !important;
+}}
+[class*="st-key-fila_"] div[data-testid="stColumn"], [class*="st-key-fila_"] div[data-testid="column"] {{
+    min-width: 0 !important;
+}}
+[class*="st-key-fila_"] div.stButton > button {{
+    padding: 0.45rem 0 !important; border-radius: 10px !important; min-height: 0 !important;
     box-shadow: none !important;
-    background: transparent !important;
-    content: none !important;
 }}
-button[role="tab"], button[data-baseweb="tab"] {{
-    display: inline-flex !important;
-    visibility: visible !important;
-    border-bottom: 1px solid {BORDE} !important;
-    text-decoration: none !important;
-    outline: none !important;
-}}
-button[role="tab"][aria-selected="true"], button[data-baseweb="tab"][aria-selected="true"] {{
-    border-bottom: 1px solid {GUINDA} !important;
-    box-shadow: 0 2px 6px rgba(74,21,37,0.20) !important;
-}}
-button[role="tab"]::before, button[role="tab"]::after,
-button[data-baseweb="tab"]::before, button[data-baseweb="tab"]::after {{
-    display: none !important;
-    content: none !important;
-    border: none !important;
-    background: transparent !important;
+
+/* AJUSTES PARA CELULAR */
+@media (max-width: 480px) {{
+    div.block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 1rem !important; }}
+    .st-key-nav div[role="radiogroup"] {{ gap: 5px !important; }}
+    .st-key-nav label[data-baseweb="radio"] {{ padding: 8px 2px !important; }}
+    .st-key-nav label[data-baseweb="radio"] p {{ font-size: 0.68rem !important; }}
 }}
 
 /* ELEMENTOS DE FORMULARIO */
@@ -523,6 +469,18 @@ def siguiente_id(df: pd.DataFrame) -> str:
     return f"STTOICA-{(max(nums) if nums else 0) + 1:02d}"
 
 
+def solo_digitos(v) -> str:
+    return re.sub(r"\D", "", str(v))
+
+
+def pin_de(row) -> str:
+    """PIN de la alumna: columna PIN, o los últimos 4 dígitos del teléfono si está vacía."""
+    pin = solo_digitos(row.get("PIN", ""))
+    if pin:
+        return pin
+    return solo_digitos(row.get("Telefono", ""))[-4:]
+
+
 def ajustar_clases(id_alumna: str, nombre: str, delta: int):
     al = df_hoja("alumnas")
     if al.empty:
@@ -569,7 +527,9 @@ def acceso_admin() -> bool:
         pass
 
     if not clave:
-        clave = "sttoica2026"
+        st.error("Falta configurar `admin_password` en los secrets de la app "
+                 "(Streamlit Cloud: Settings → Secrets; local: .streamlit/secrets.toml).")
+        return False
 
     restante = st.session_state.get("bloqueo_hasta", 0) - time.time()
     if restante > 0:
@@ -605,14 +565,28 @@ def vista_alumna():
         st.warning("⚠️ El sistema de matrículas se está configurando. Vuelve a intentarlo en un momento.")
         return
 
-    matricula = st.text_input("Ingresa tu ID o Matrícula personal (Ej. STTOICA-01):").strip()
-    if not matricula:
+    restante = st.session_state.get("al_bloqueo", 0) - time.time()
+    if restante > 0:
+        st.error(f"Demasiados intentos. Espera {int(restante)} segundos.")
+        return
+
+    matricula = st.text_input("Tu ID o matrícula (Ej. STTOICA-01)").strip()
+    pin = st.text_input("Tu PIN (por defecto, los últimos 4 dígitos de tu teléfono)",
+                        type="password", max_chars=8).strip()
+    if not matricula or not pin:
         return
 
     match = df_al[df_al["ID"].str.strip().str.upper() == matricula.upper()]
-    if match.empty:
-        st.warning("⚠️ Matrícula no encontrada. Verifica tu ID o comunícate al estudio.")
+    esperado = pin_de(match.iloc[0]) if not match.empty else ""
+    valido = bool(esperado) and hmac.compare_digest(solo_digitos(pin).encode(), esperado.encode())
+    if not valido:
+        st.session_state["al_intentos"] = st.session_state.get("al_intentos", 0) + 1
+        if st.session_state["al_intentos"] >= MAX_INTENTOS:
+            st.session_state["al_bloqueo"] = time.time() + BLOQUEO_SEG
+            st.session_state["al_intentos"] = 0
+        st.warning("⚠️ ID o PIN incorrectos. Verifica tus datos o comunícate al estudio.")
         return
+    st.session_state["al_intentos"] = 0
 
     info = match.iloc[0]
     nombre = info.get("Nombre", "Alumna")
@@ -719,12 +693,27 @@ def vista_alumna():
                 "ID_Alumna": id_al, "Asistencia": "", "Pago_Registrado": ""})
             hojas()["reservas"].append_row(fila, value_input_option="RAW")
 
-            # Descuento inmediato de clase
-            ajustar_clases(id_al, nombre, -1)
+            # Verificación posterior: si dos alumnas reservaron al mismo tiempo, gana quien
+            # quedó primero en la hoja; la otra reserva se cancela automáticamente.
+            refrescar()
+            res2 = df_hoja("reservas")
+            mismo = res2[(res2["Fecha"] == str(fecha)) & (res2["Hora"] == horario) &
+                         (res2["Instructor"] == instructora) & (res2["Estatus"] == "Confirmada")]
+            propias = mismo[mismo["ID_Alumna"].str.strip().str.upper() == id_al.upper()]
+            pos_mia = propias.index[-1] if not propias.empty else None
+            lugar = (list(mismo.index).index(pos_mia) + 1) if pos_mia is not None else 0
 
-            st.session_state["ultima_reserva"] = {
-                "id": id_al, "fecha": fecha.strftime("%d/%m/%Y"), "hora": horario, "instructora": instructora}
-            terminar("¡Clase agendada con éxito!")
+            if lugar > CUPO_MAX:
+                actualizar_celdas("reservas", pos_mia + 2, {"Estatus": "Cancelada"})
+                refrescar()
+                st.error("Lo sentimos, alguien tomó el último lugar al mismo tiempo. "
+                         "No se te descontó ninguna clase. Elige otro horario.")
+            else:
+                # Descuento inmediato de clase
+                ajustar_clases(id_al, nombre, -1)
+                st.session_state["ultima_reserva"] = {
+                    "id": id_al, "fecha": fecha.strftime("%d/%m/%Y"), "hora": horario, "instructora": instructora}
+                terminar("¡Clase agendada con éxito!")
 
 
 # ------------------------------------------------------------------
@@ -825,7 +814,8 @@ def tab_asistencia(res):
             f"{barra_ocupacion(len(g), CUPO_MAX)}"))
 
         for idx, r in g.iterrows():
-            c1, c2, c3, c4 = st.columns([4, 1, 1, 1])
+            fila_ui = st.container(key=f"fila_{idx}")
+            c1, c2, c3, c4 = fila_ui.columns([5, 1, 1, 1])
             estado = r["Asistencia"] or "Por marcar"
             c1.markdown(f"<p style='margin:6px 0;color:#1A1817 !important;font-weight:600;'>{escape(r['Alumna'])} &nbsp;{badge(estado)}</p>",
                         unsafe_allow_html=True)
@@ -894,15 +884,20 @@ def tab_alumnas(al):
         with st.form("form_nueva_alumna", clear_on_submit=True):
             nombre = st.text_input("Nombre completo")
             tel = st.text_input("Teléfono")
+            pin_in = st.text_input("PIN (opcional; si lo dejas vacío se usan los últimos 4 dígitos del teléfono)", max_chars=8)
             paquete = st.selectbox("Paquete", list(PAQUETES.keys()))
             monto = st.number_input("Monto pagado ($ MXN). Deja 0 si aún no paga", min_value=0.0, step=50.0, value=0.0)
             enviar = st.form_submit_button("Guardar alumna", width="stretch")
         if enviar:
+            pin_final = solo_digitos(pin_in) or solo_digitos(tel)[-4:]
             if not nombre.strip():
                 st.error("Escribe el nombre de la alumna.")
+            elif len(pin_final) < 4:
+                st.error("Escribe un teléfono (mínimo 4 dígitos) o un PIN de al menos 4 dígitos.")
             else:
                 nuevo_id = siguiente_id(al)
-                datos = {"ID": nuevo_id, "Nombre": nombre.strip(), "Telefono": tel.strip(), "Estatus_Pago": "Pendiente"}
+                datos = {"ID": nuevo_id, "Nombre": nombre.strip(), "Telefono": tel.strip(),
+                         "Estatus_Pago": "Pendiente", "PIN": pin_final}
                 if monto > 0:
                     pq = PAQUETES[paquete]
                     datos.update({"Estatus_Pago": "Pagado", "Paquete": paquete, "Clases_Restantes": pq["clases"],
@@ -911,7 +906,7 @@ def tab_alumnas(al):
                         fila_finanza("Ingreso", f"Paquete {paquete}", "Paquete de clases", f"Pago {nombre.strip()}", monto, "Estudio"),
                         value_input_option="RAW")
                 hojas()["alumnas"].append_row(fila_por_header("alumnas", datos), value_input_option="RAW")
-                terminar(f"Alumna registrada con ID {nuevo_id}")
+                terminar(f"Alumna registrada: ID {nuevo_id} · PIN {pin_final}")
 
     if al.empty:
         return
@@ -949,6 +944,19 @@ def tab_alumnas(al):
         if enviar:
             actualizar_celdas("alumnas", opciones[sel] + 2, {"Estatus_Pago": nuevo})
             terminar("Estatus actualizado.")
+
+    with st.expander("🔑 Cambiar PIN de una alumna"):
+        with st.form("form_pin", clear_on_submit=True):
+            sel = st.selectbox("Alumna", list(opciones.keys()), key="pin_alumna")
+            nuevo_pin = st.text_input("Nuevo PIN (4 a 8 dígitos)", max_chars=8)
+            enviar = st.form_submit_button("Guardar PIN", width="stretch")
+        if enviar:
+            p = solo_digitos(nuevo_pin)
+            if len(p) < 4:
+                st.error("El PIN debe tener al menos 4 dígitos.")
+            else:
+                actualizar_celdas("alumnas", opciones[sel] + 2, {"PIN": p})
+                terminar(f"PIN actualizado: {p}")
 
 
 def tab_finanzas():
@@ -1047,16 +1055,18 @@ def tab_datos(fin, res):
 
 def vista_admin():
     fin, al, res = preparar_fin(), preparar_alumnas(), df_hoja("reservas")
-    t1, t2, t3, t4, t5 = st.tabs(["🏠 Inicio", "📅 Clases", "👩 Alumnas", "💰 Finanzas", "📊 Datos"])
-    with t1:
+    secciones = ["🏠 Inicio", "📅 Clases", "👩 Alumnas", "💰 Finanzas", "📊 Datos"]
+    seccion = st.radio("Sección", secciones, horizontal=True, label_visibility="collapsed", key="nav")
+    st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
+    if seccion == secciones[0]:
         tab_inicio(fin, al, res)
-    with t2:
+    elif seccion == secciones[1]:
         tab_asistencia(res)
-    with t3:
+    elif seccion == secciones[2]:
         tab_alumnas(al)
-    with t4:
+    elif seccion == secciones[3]:
         tab_finanzas()
-    with t5:
+    else:
         tab_datos(fin, res)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -1079,10 +1089,10 @@ try:
     if "flash" in st.session_state:
         st.toast(st.session_state.pop("flash"), icon="✅")
 
-    modo = st.radio("¿Cómo deseas ingresar?", ["Soy Alumna (Agendar Clases)", "Administrador (Dueño)"], horizontal=True)
-    st.markdown("<br>", unsafe_allow_html=True)
+    modo = st.radio("¿Cómo deseas ingresar?", ["Soy Alumna", "Administrador"], horizontal=True, key="modo")
+    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
-    if modo == "Soy Alumna (Agendar Clases)":
+    if modo == "Soy Alumna":
         vista_alumna()
     elif acceso_admin():
         vista_admin()
