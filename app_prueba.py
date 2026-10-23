@@ -84,14 +84,12 @@ div[data-baseweb="select"] input,
 div[data-baseweb="select"] div {{ font-size: 16px !important; }}
 button, a, label, [role="tab"], [role="radio"] {{ touch-action: manipulation; }}
 
-/* CONTENEDOR DE PESTAÑAS (varios selectores para distintas versiones de Streamlit) */
-div[data-testid="stTabs"],
-div[data-baseweb="tabs"] {{
+/* CONTENEDOR DE PESTAÑAS */
+div[data-testid="stTabs"] {{
     background: transparent !important;
 }}
 
-div[data-testid="stTabs"] div[role="tablist"],
-div[data-baseweb="tab-list"] {{
+div[data-testid="stTabs"] div[role="tablist"] {{
     background: transparent !important;
     gap: 8px !important;
     border-bottom: none !important;
@@ -100,31 +98,20 @@ div[data-baseweb="tab-list"] {{
     flex-wrap: wrap !important;
 }}
 
-/* BOTÓN DE PESTAÑA INACTIVO (FONDO BLANCO, BORDE Y TEXTO GUINDA) */
-div[data-testid="stTabs"] button[role="tab"],
-button[data-baseweb="tab"],
-button[data-testid="stTab"],
-[data-testid="stTab"] {{
+/* BOTÓN DE PESTAÑA INACTIVO (FONDO BLANCO, BORDE UNIFORME) */
+div[data-testid="stTabs"] button[role="tab"] {{
     background-color: #FFFFFF !important;
     border: 1px solid {BORDE} !important;
     border-radius: 999px !important;
     padding: 6px 14px !important;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
     opacity: 1 !important;
-    color: {GUINDA} !important;
-    -webkit-text-fill-color: {GUINDA} !important;
     height: auto !important;
+    outline: none !important;
 }}
 
-/* FORZAR COLOR DE TEXTO E ICONOS EN PESTAÑAS INACTIVAS (incluye p, span, div internos) */
-div[data-testid="stTabs"] button[role="tab"] *,
-button[data-baseweb="tab"] *,
-button[data-testid="stTab"] *,
-[data-testid="stTab"] *,
-div[data-testid="stTabs"] button[role="tab"] p,
-button[data-baseweb="tab"] p,
-button[data-baseweb="tab"] span,
-button[data-baseweb="tab"] div {{
+/* FORZAR COLOR DE TEXTO E ICONOS EN PESTAÑAS INACTIVAS */
+div[data-testid="stTabs"] button[role="tab"] * {{
     color: {GUINDA} !important;
     -webkit-text-fill-color: {GUINDA} !important;
     fill: {GUINDA} !important;
@@ -133,72 +120,32 @@ button[data-baseweb="tab"] div {{
     opacity: 1 !important;
 }}
 
-div[data-testid="stTabs"] button[role="tab"]:hover,
-button[data-baseweb="tab"]:hover,
-[data-testid="stTab"]:hover {{
+div[data-testid="stTabs"] button[role="tab"]:hover {{
     border-color: {GUINDA} !important;
     background-color: {CREMA_OSCURO} !important;
 }}
 
 /* PESTAÑA ACTIVA / SELECCIONADA */
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"],
-button[data-baseweb="tab"][aria-selected="true"],
-[data-testid="stTab"][aria-selected="true"] {{
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     background-color: {GUINDA} !important;
-    border-color: {GUINDA} !important;
+    border: 1px solid {GUINDA} !important;
+    box-shadow: 0 2px 6px rgba(74,21,37,0.20) !important;
 }}
 
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] *,
-button[data-baseweb="tab"][aria-selected="true"] *,
-button[data-testid="stTab"][aria-selected="true"] *,
-[data-testid="stTab"][aria-selected="true"] *,
-button[data-baseweb="tab"][aria-selected="true"] p,
-button[data-baseweb="tab"][aria-selected="true"] span,
-button[data-baseweb="tab"][aria-selected="true"] div {{
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] * {{
     color: #FFFFFF !important;
     -webkit-text-fill-color: #FFFFFF !important;
     fill: #FFFFFF !important;
     font-weight: 800 !important;
 }}
 
-/* OCULTAR LÍNEAS DECORATIVAS DE STREAMLIT */
-[data-baseweb="tab-highlight"], [data-baseweb="tab-border"], [data-testid="stTabs"] hr,
-div[data-testid="stTabs"] div[role="tablist"] > div:not([role="tab"]):not(:has(button)),
-div[data-baseweb="tab-list"] > div:not([role="tab"]):not(:has(button)) {{
+/* OCULTAR INDICADOR ROJO Y LÍNEAS DECORATIVAS DE STREAMLIT */
+div[data-testid="stTabIndicator"],
+div[data-baseweb="tab-highlight"], 
+div[data-baseweb="tab-border"], 
+div[data-testid="stTabs"] hr,
+div[data-testid="stTabs"] div[role="tablist"] > div:not([role="tab"]):not(:has(button)) {{
     display: none !important;
-    height: 0 !important;
-    background: transparent !important;
-    background-color: transparent !important;
-    opacity: 0 !important;
-}}
-[role="tablist"] > *:not(button):not([role="tab"]):not(:has(button)):not(:has([role="tab"])),
-[data-baseweb="tab-list"] > *:not(button):not([role="tab"]):not(:has(button)):not(:has([role="tab"])) {{
-    display: none !important;
-    visibility: hidden !important;
-    width: 0 !important;
-    height: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    content: none !important;
-}}
-button[role="tab"], button[data-baseweb="tab"] {{
-    display: inline-flex !important;
-    visibility: visible !important;
-    border-bottom: 1px solid {BORDE} !important;
-    text-decoration: none !important;
-    outline: none !important;
-}}
-button[role="tab"][aria-selected="true"], button[data-baseweb="tab"][aria-selected="true"] {{
-    border-bottom: 1px solid {GUINDA} !important;
-    box-shadow: 0 2px 6px rgba(74,21,37,0.20) !important;
-}}
-button[role="tab"]::before, button[role="tab"]::after,
-button[data-baseweb="tab"]::before, button[data-baseweb="tab"]::after {{
-    display: none !important;
-    content: none !important;
-    border: none !important;
-    background: transparent !important;
 }}
 
 /* ELEMENTOS DE FORMULARIO */
