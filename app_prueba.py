@@ -83,31 +83,47 @@ div[data-baseweb="select"] input,
 div[data-baseweb="select"] div {{ font-size: 16px !important; }}
 button, a, label, [role="tab"], [role="radio"] {{ touch-action: manipulation; }}
 
+/* Pestañas (Tabs) con alto contraste */
 div[data-baseweb="tab-list"] {{
-    background: transparent !important; padding: 4px 2px 10px 2px !important;
-    gap: 6px !important; border-bottom: none !important; margin-bottom: 8px !important;
+    background: transparent !important;
+    gap: 8px !important;
+    border-bottom: none !important;
+    padding-bottom: 12px !important;
 }}
-button[data-baseweb="tab"], button[role="tab"] {{
-    flex: 1 1 0 !important; justify-content: center !important; height: 40px !important;
-    padding: 0 8px !important; background-color: #FFFFFF !important;
-    border: 1px solid {BORDE} !important; border-radius: 999px !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04) !important; transition: all 0.2s ease-in-out !important;
+button[data-baseweb="tab"] {{
+    background-color: #FFFFFF !important;
+    border: 1px solid {BORDE} !important;
+    border-radius: 999px !important;
+    padding: 6px 14px !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
 }}
-button[data-baseweb="tab"] *, button[role="tab"] * {{
-    color: {GUINDA} !important; fill: {GUINDA} !important; font-weight: 600 !important;
-    font-size: 0.75rem !important; opacity: 1 !important;
+button[data-baseweb="tab"] p,
+button[data-baseweb="tab"] span,
+button[data-baseweb="tab"] div {{
+    color: {GUINDA} !important;
+    -webkit-text-fill-color: {GUINDA} !important;
+    font-weight: 700 !important;
+    font-size: 0.82rem !important;
+    opacity: 1 !important;
 }}
-button[data-baseweb="tab"]:hover, button[role="tab"]:hover {{
-    border-color: {GUINDA} !important; background-color: {CREMA_OSCURO} !important;
+button[data-baseweb="tab"]:hover {{
+    border-color: {GUINDA} !important;
+    background-color: {CREMA_OSCURO} !important;
 }}
-button[data-baseweb="tab"][aria-selected="true"], button[role="tab"][aria-selected="true"] {{
-    background-color: {GUINDA} !important; border-color: {GUINDA} !important;
-    box-shadow: 0 6px 14px rgba(74, 21, 37, 0.28) !important;
+button[data-baseweb="tab"][aria-selected="true"] {{
+    background-color: {GUINDA} !important;
+    border-color: {GUINDA} !important;
 }}
-button[data-baseweb="tab"][aria-selected="true"] *, button[role="tab"][aria-selected="true"] * {{
-    color: #FFFFFF !important; fill: #FFFFFF !important; font-weight: 700 !important;
+button[data-baseweb="tab"][aria-selected="true"] p,
+button[data-baseweb="tab"][aria-selected="true"] span,
+button[data-baseweb="tab"][aria-selected="true"] div {{
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    font-weight: 800 !important;
 }}
-div[data-baseweb="tab-highlight"], div[data-baseweb="tab-border"] {{ display: none !important; }}
+div[data-baseweb="tab-highlight"], div[data-baseweb="tab-border"] {{
+    display: none !important;
+}}
 
 div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] label, label {{
     color: {GUINDA} !important; font-weight: 600 !important; font-size: 0.9rem !important;
