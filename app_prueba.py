@@ -101,9 +101,11 @@ div[role="radiogroup"][role="radiogroup"] label:hover {{
     border-color: {GUINDA} !important; background-color: {CREMA_OSCURO} !important;
 }}
 /* ocultar el circulito del radio */
-div[role="radiogroup"][role="radiogroup"] label > div:first-child:not(:has(p)),
-div[role="radiogroup"][role="radiogroup"] label > span:first-child:not(:has(p)) {{
-    display: none !important;
+div[role="radiogroup"][role="radiogroup"] label div:not(:has(p)):not([data-testid="stMarkdownContainer"]),
+div[role="radiogroup"][role="radiogroup"] label span:not(:has(p)),
+div[role="radiogroup"][role="radiogroup"] label svg {{
+    display: none !important; width: 0 !important; height: 0 !important;
+    margin: 0 !important; padding: 0 !important; border: 0 !important;
 }}
 div[role="radiogroup"][role="radiogroup"] label div[data-testid="stMarkdownContainer"] {{
     margin: 0 !important; padding: 0 !important; width: 100% !important;
