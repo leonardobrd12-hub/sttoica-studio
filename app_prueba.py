@@ -171,6 +171,28 @@ div[data-baseweb="tab-list"] > div:not([role="tab"]) {{
     background-color: transparent !important;
     opacity: 0 !important;
 }}
+[role="tablist"] > :not(button),
+[role="tablist"]::before, [role="tablist"]::after,
+[data-baseweb="tabs"] [role="tablist"] ~ div[aria-hidden="true"],
+[data-baseweb="tab-list"] > :not(button) {{
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    content: none !important;
+}}
+button[role="tab"], button[data-baseweb="tab"] {{
+    border-bottom: 1px solid {BORDE} !important;
+    text-decoration: none !important;
+    outline: none !important;
+}}
+button[role="tab"][aria-selected="true"], button[data-baseweb="tab"][aria-selected="true"] {{
+    border-bottom: 1px solid {GUINDA} !important;
+    box-shadow: 0 2px 6px rgba(74,21,37,0.20) !important;
+}}
 button[role="tab"]::before, button[role="tab"]::after,
 button[data-baseweb="tab"]::before, button[data-baseweb="tab"]::after {{
     display: none !important;
