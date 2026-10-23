@@ -84,46 +84,45 @@ div[data-baseweb="select"] input,
 div[data-baseweb="select"] div {{ font-size: 16px !important; }}
 button, a, label, [role="tab"], [role="radio"] {{ touch-action: manipulation; }}
 
-/* NAVEGACIÓN TIPO CÁPSULA (st.radio con key="nav" y key="modo") */
-.st-key-nav div[role="radiogroup"], .st-key-modo div[role="radiogroup"] {{
-    display: grid !important; gap: 8px !important; width: 100% !important;
+/* NAVEGACIÓN TIPO CÁPSULA (aplica a todos los st.radio horizontales de la app) */
+div[role="radiogroup"][role="radiogroup"] {{
+    display: grid !important; grid-auto-flow: column !important;
+    grid-auto-columns: minmax(0, 1fr) !important; gap: 8px !important; width: 100% !important;
 }}
-.st-key-nav div[role="radiogroup"] {{ grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }}
-.st-key-modo div[role="radiogroup"] {{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }}
-
-.st-key-nav label[data-baseweb="radio"], .st-key-modo label[data-baseweb="radio"] {{
-    background-color: #FFFFFF !important; border: 1px solid {BORDE} !important;
-    border-radius: 999px !important; padding: 9px 4px !important; margin: 0 !important;
+div[role="radiogroup"][role="radiogroup"] label {{
+    background: #FFFFFF !important; background-color: #FFFFFF !important;
+    border: 1px solid {BORDE} !important; border-radius: 999px !important;
+    padding: 10px 6px !important; margin: 0 !important; min-width: 0 !important;
     display: flex !important; justify-content: center !important; align-items: center !important;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important; cursor: pointer !important;
-    min-width: 0 !important; transition: all 0.15s ease-in-out !important;
+    transition: all 0.15s ease-in-out !important;
 }}
-.st-key-nav label[data-baseweb="radio"]:hover, .st-key-modo label[data-baseweb="radio"]:hover {{
+div[role="radiogroup"][role="radiogroup"] label:hover {{
     border-color: {GUINDA} !important; background-color: {CREMA_OSCURO} !important;
 }}
 /* ocultar el circulito del radio */
-.st-key-nav label[data-baseweb="radio"] > div:first-child:not(:has([data-testid="stMarkdownContainer"])),
-.st-key-modo label[data-baseweb="radio"] > div:first-child:not(:has([data-testid="stMarkdownContainer"])),
-.st-key-nav label[data-baseweb="radio"] > span:first-child,
-.st-key-modo label[data-baseweb="radio"] > span:first-child {{
+div[role="radiogroup"][role="radiogroup"] label > div:first-child:not(:has(p)),
+div[role="radiogroup"][role="radiogroup"] label > span:first-child:not(:has(p)) {{
     display: none !important;
 }}
-.st-key-nav label[data-baseweb="radio"] div[data-testid="stMarkdownContainer"],
-.st-key-modo label[data-baseweb="radio"] div[data-testid="stMarkdownContainer"] {{
+div[role="radiogroup"][role="radiogroup"] label div[data-testid="stMarkdownContainer"] {{
     margin: 0 !important; padding: 0 !important; width: 100% !important;
 }}
-.st-key-nav label[data-baseweb="radio"] p, .st-key-modo label[data-baseweb="radio"] p {{
-    color: {GUINDA} !important; font-weight: 700 !important; font-size: 0.8rem !important;
-    line-height: 1.25 !important; margin: 0 !important; text-align: center !important;
+div[role="radiogroup"][role="radiogroup"] label p {{
+    color: {GUINDA} !important; font-weight: 700 !important; font-size: 0.85rem !important;
+    line-height: 1.2 !important; margin: 0 !important; text-align: center !important;
+    white-space: nowrap !important;
 }}
-/* seleccionado */
-.st-key-nav label[data-baseweb="radio"]:has(input:checked),
-.st-key-modo label[data-baseweb="radio"]:has(input:checked) {{
-    background-color: {GUINDA} !important; border-color: {GUINDA} !important;
-    box-shadow: 0 4px 10px rgba(74,21,37,0.25) !important;
+/* seleccionado: cápsula guinda con texto blanco */
+div[role="radiogroup"][role="radiogroup"] label:has(input:checked),
+div[role="radiogroup"][role="radiogroup"] label:has(input[aria-checked="true"]),
+div[role="radiogroup"][role="radiogroup"] label[aria-checked="true"] {{
+    background: {GUINDA} !important; background-color: {GUINDA} !important;
+    border-color: {GUINDA} !important; box-shadow: 0 4px 10px rgba(74,21,37,0.28) !important;
 }}
-.st-key-nav label[data-baseweb="radio"]:has(input:checked) p,
-.st-key-modo label[data-baseweb="radio"]:has(input:checked) p {{
+div[role="radiogroup"][role="radiogroup"] label:has(input:checked) p,
+div[role="radiogroup"][role="radiogroup"] label:has(input[aria-checked="true"]) p,
+div[role="radiogroup"][role="radiogroup"] label[aria-checked="true"] p {{
     color: #FFFFFF !important; font-weight: 800 !important;
 }}
 
@@ -142,67 +141,10 @@ button, a, label, [role="tab"], [role="radio"] {{ touch-action: manipulation; }}
 /* AJUSTES PARA CELULAR */
 @media (max-width: 480px) {{
     div.block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 1rem !important; }}
-    .st-key-nav div[role="radiogroup"] {{ gap: 5px !important; }}
-    .st-key-nav label[data-baseweb="radio"] {{ padding: 8px 2px !important; }}
-    .st-key-nav label[data-baseweb="radio"] p {{ font-size: 0.68rem !important; }}
+    div[role="radiogroup"][role="radiogroup"] {{ gap: 5px !important; }}
+    div[role="radiogroup"][role="radiogroup"] label {{ padding: 9px 2px !important; }}
+    div[role="radiogroup"][role="radiogroup"] label p {{ font-size: 0.72rem !important; }}
 }}
-
-/* ELEMENTOS DE FORMULARIO */
-div[data-testid="stWidgetLabel"] p, div[data-testid="stWidgetLabel"] label, label {{
-    color: {GUINDA} !important; font-weight: 600 !important; font-size: 0.9rem !important;
-}}
-div[role="radiogroup"] label p {{ color: {TEXTO} !important; }}
-div[data-baseweb="select"] > div, div[data-testid="stNumberInputContainer"],
-div[data-baseweb="input"], div[data-baseweb="base-input"] {{
-    background-color: #FFFFFF !important; color: {TEXTO} !important;
-    border: 1px solid {BORDE} !important; border-radius: 12px !important;
-}}
-div[data-baseweb="input"] input, div[data-baseweb="base-input"] input {{
-    color: {TEXTO} !important; -webkit-text-fill-color: {TEXTO} !important; background: transparent !important;
-}}
-div[data-baseweb="select"] span, div[data-baseweb="select"] div {{ color: {TEXTO} !important; }}
-div[data-baseweb="select"] svg {{ fill: {GUINDA} !important; }}
-div[data-baseweb="popover"] ul, div[data-baseweb="popover"] li {{ background-color: #FFFFFF !important; color: {TEXTO} !important; }}
-div[data-baseweb="popover"] li:hover {{ background-color: {CREMA} !important; }}
-div[data-testid="stNumberInputContainer"] button {{ background-color: {CREMA} !important; color: {GUINDA} !important; }}
-div[data-testid="stNumberInputContainer"] button svg {{ fill: {GUINDA} !important; }}
-
-div[data-testid="stAlert"] p {{ color: {TEXTO} !important; }}
-
-div[data-testid="stExpander"] {{
-    background: #FFFFFF !important; border: 1px solid {CREMA_OSCURO} !important;
-    border-radius: 16px !important; margin-bottom: 10px !important;
-}}
-div[data-testid="stExpander"] summary p {{ color: {GUINDA} !important; font-weight: 700 !important; }}
-div[data-testid="stForm"] {{
-    border: 1px solid {CREMA_OSCURO} !important; border-radius: 16px !important; background: #FFFFFF !important;
-}}
-
-div.stButton > button, div.stDownloadButton > button,
-div[data-testid="stFormSubmitButton"] > button, a[data-testid="stLinkButton"] {{
-    background-color: {GUINDA} !important; color: #FFFFFF !important; border-radius: 14px !important;
-    padding: 0.85rem 1.5rem !important; width: 100% !important; border: none !important;
-    box-shadow: 0 6px 15px rgba(74, 21, 37, 0.25) !important; display: flex !important;
-    justify-content: center !important; align-items: center !important; transition: all 0.2s ease-in-out !important;
-}}
-div.stButton > button p, div.stButton > button span, div.stDownloadButton > button p,
-div.stDownloadButton > button span, div[data-testid="stFormSubmitButton"] > button p,
-a[data-testid="stLinkButton"] p, a[data-testid="stLinkButton"] span {{
-    color: #FFFFFF !important; font-weight: 600 !important; font-size: 1rem !important;
-    letter-spacing: 0.5px !important; margin: 0 !important;
-}}
-div.stButton > button:hover, div.stDownloadButton > button:hover,
-div[data-testid="stFormSubmitButton"] > button:hover, a[data-testid="stLinkButton"]:hover {{
-    background-color: {GUINDA_HOVER} !important; transform: translateY(-2px) !important;
-}}
-div.stButton > button:disabled {{ background-color: {BORDE} !important; box-shadow: none !important; }}
-
-div[data-testid="stVegaLiteChart"], div[data-testid="stArrowVegaLiteChart"] {{
-    background-color: #FFFFFF !important; border: 1px solid {CREMA_OSCURO} !important;
-    border-radius: 20px !important; padding: 14px 16px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important; overflow: hidden !important; margin-bottom: 8px !important;
-}}
-div[data-testid="stDataFrame"] {{ border: 1px solid {CREMA_OSCURO} !important; border-radius: 16px !important; overflow: hidden !important; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -1055,7 +997,7 @@ def tab_datos(fin, res):
 
 def vista_admin():
     fin, al, res = preparar_fin(), preparar_alumnas(), df_hoja("reservas")
-    secciones = ["🏠 Inicio", "📅 Clases", "👩 Alumnas", "💰 Finanzas", "📊 Datos"]
+    secciones = ["Inicio", "Clases", "Alumnas", "Finanzas", "Datos"]
     seccion = st.radio("Sección", secciones, horizontal=True, label_visibility="collapsed", key="nav")
     st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
     if seccion == secciones[0]:
